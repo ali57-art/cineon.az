@@ -1,6 +1,6 @@
 import { Movie, MovieDetail, SearchResponse } from "@/types/movie";
 
-const API_KEY = "65ba8522"; // OMDb API key
+const API_KEY = "ed745323"; // OMDb API key
 const BASE_URL = "https://www.omdbapi.com/";
 
 export const searchMovies = async (query: string, page: number = 1): Promise<SearchResponse> => {
