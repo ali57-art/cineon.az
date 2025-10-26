@@ -1,11 +1,15 @@
 import logo from "@/assets/questoindex-logo.png";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/i18n/translations";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Header = () => {
   const { user, signOut } = useAuth();
+  const { language } = useLanguage();
   const navigate = useNavigate();
 
   return (
@@ -25,6 +29,7 @@ const Header = () => {
           </div>
           
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             {user ? (
               <>
                 <Button variant="ghost" size="sm" className="gap-2">
@@ -33,12 +38,12 @@ const Header = () => {
                 </Button>
                 <Button variant="outline" size="sm" onClick={signOut} className="gap-2">
                   <LogOut className="w-4 h-4" />
-                  Çıxış
+                  {t("signOut", language)}
                 </Button>
               </>
             ) : (
               <Button variant="default" size="sm" onClick={() => navigate("/auth")}>
-                Daxil ol
+                {t("signIn", language)}
               </Button>
             )}
           </div>

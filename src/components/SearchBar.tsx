@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/i18n/translations";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -10,6 +12,7 @@ interface SearchBarProps {
 
 const SearchBar = ({ onSearch, isLoading }: SearchBarProps) => {
   const [query, setQuery] = useState("");
+  const { language } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +28,7 @@ const SearchBar = ({ onSearch, isLoading }: SearchBarProps) => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Search for movies, series, or episodes..."
+            placeholder={t("searchPlaceholder", language)}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-12 h-14 text-lg bg-card border-border focus:border-primary transition-colors"
@@ -37,7 +40,7 @@ const SearchBar = ({ onSearch, isLoading }: SearchBarProps) => {
           disabled={isLoading || !query.trim()}
           className="h-14 px-8"
         >
-          Search
+          {t("search", language)}
         </Button>
       </div>
     </form>

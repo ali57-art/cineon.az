@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { t } from "@/i18n/translations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,14 +11,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 import logo from "@/assets/questoindex-logo.png";
 import { Loader2 } from "lucide-react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Auth = () => {
+  const { user } = useAuth();
+  const { language } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +42,7 @@ const Auth = () => {
 
         if (error) throw error;
         
-        toast.success("Xoş gəldiniz!");
+        toast.success("Welcome!");
         navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({
@@ -46,11 +58,11 @@ const Auth = () => {
 
         if (error) throw error;
         
-        toast.success("Qeydiyyat uğurla tamamlandı!");
+        toast.success("Account created successfully!");
         navigate("/");
       }
     } catch (error: any) {
-      toast.error(error.message || "Xəta baş verdi");
+      toast.error(error.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -58,29 +70,33 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+      
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <img src={logo} alt="QuestoIndex" className="w-20 h-20" />
           </div>
           <CardTitle className="text-2xl">
-            {isLogin ? "Daxil ol" : "Qeydiyyat"}
+            {isLogin ? t("signIn", language) : t("signUp", language)}
           </CardTitle>
           <CardDescription>
             {isLogin
-              ? "Hesabınıza daxil olun"
-              : "Yeni hesab yaradın"}
+              ? "QuestoIndex"
+              : "QuestoIndex"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleAuth} className="space-y-4">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="fullName">Ad və Soyad</Label>
+                <Label htmlFor="fullName">{t("fullName", language)}</Label>
                 <Input
                   id="fullName"
                   type="text"
-                  placeholder="Adınız və Soyadınız"
+                  placeholder={t("fullName", language)}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required={!isLogin}
@@ -90,7 +106,7 @@ const Auth = () => {
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("email", language)}</Label>
               <Input
                 id="email"
                 type="email"
@@ -103,7 +119,7 @@ const Auth = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Şifrə</Label>
+              <Label htmlFor="password">{t("password", language)}</Label>
               <Input
                 id="password"
                 type="password"
@@ -120,12 +136,12 @@ const Auth = () => {
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Yüklənir...
+                  {t("loading", language)}
                 </>
               ) : isLogin ? (
-                "Daxil ol"
+                t("signIn", language)
               ) : (
-                "Qeydiyyat"
+                t("signUp", language)
               )}
             </Button>
 
@@ -137,8 +153,8 @@ const Auth = () => {
                 disabled={loading}
               >
                 {isLogin
-                  ? "Hesabınız yoxdur? Qeydiyyatdan keçin"
-                  : "Artıq hesabınız var? Daxil olun"}
+                  ? t("dontHaveAccount", language)
+                  : t("alreadyHaveAccount", language)}
               </button>
             </div>
           </form>
