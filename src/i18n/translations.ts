@@ -28,6 +28,16 @@ export const translations = {
     year: "İl",
     type: "Növ",
     randomMovie: "Təsadüfi Film",
+    home: "Ana Səhifə",
+    trending: "Populyar",
+    all: "Hamısı",
+    
+    // Subscription
+    upgradeToPro: "Pro-ya keç",
+    proFeatures: "Pro Xüsusiyyətlər",
+    unlimitedSearches: "Limitsiz Axtarış",
+    noAds: "Reklamssız",
+    advancedFilters: "Qabaqcıl Filtrlər",
     
     // Empty State
     noResults: "Nəticə tapılmadı",
@@ -64,6 +74,16 @@ export const translations = {
     year: "Год",
     type: "Тип",
     randomMovie: "Случайный фильм",
+    home: "Главная",
+    trending: "Популярное",
+    all: "Все",
+    
+    // Subscription
+    upgradeToPro: "Перейти на Pro",
+    proFeatures: "Pro Функции",
+    unlimitedSearches: "Неограниченный поиск",
+    noAds: "Без рекламы",
+    advancedFilters: "Расширенные фильтры",
     
     // Empty State
     noResults: "Результаты не найдены",
@@ -100,6 +120,16 @@ export const translations = {
     year: "Year",
     type: "Type",
     randomMovie: "Random Movie",
+    home: "Home",
+    trending: "Trending",
+    all: "All",
+    
+    // Subscription
+    upgradeToPro: "Upgrade to Pro",
+    proFeatures: "Pro Features",
+    unlimitedSearches: "Unlimited Searches",
+    noAds: "No Ads",
+    advancedFilters: "Advanced Filters",
     
     // Empty State
     noResults: "No results found",
@@ -136,6 +166,16 @@ export const translations = {
     year: "Anno",
     type: "Tipo",
     randomMovie: "Film Casuale",
+    home: "Home",
+    trending: "Tendenze",
+    all: "Tutto",
+    
+    // Subscription
+    upgradeToPro: "Passa a Pro",
+    proFeatures: "Funzionalità Pro",
+    unlimitedSearches: "Ricerche Illimitate",
+    noAds: "Senza Pubblicità",
+    advancedFilters: "Filtri Avanzati",
     
     // Empty State
     noResults: "Nessun risultato trovato",
@@ -172,6 +212,16 @@ export const translations = {
     year: "Yıl",
     type: "Tür",
     randomMovie: "Rastgele Film",
+    home: "Ana Sayfa",
+    trending: "Trend",
+    all: "Hepsi",
+    
+    // Subscription
+    upgradeToPro: "Pro'ya Geç",
+    proFeatures: "Pro Özellikler",
+    unlimitedSearches: "Sınırsız Arama",
+    noAds: "Reklamsız",
+    advancedFilters: "Gelişmiş Filtreler",
     
     // Empty State
     noResults: "Sonuç bulunamadı",
