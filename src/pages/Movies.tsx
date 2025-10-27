@@ -61,7 +61,6 @@ const Movies = () => {
       {selectedMovieId && (
         <MovieModal
           imdbID={selectedMovieId}
-          isOpen={!!selectedMovieId}
           onClose={() => setSelectedMovieId(null)}
         />
       )}
