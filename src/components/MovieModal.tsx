@@ -11,6 +11,9 @@ import { Film, Calendar, Clock, Star, User } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
 import PlatformLinks from "./PlatformLinks";
+import AIMovieReview from "./AIMovieReview";
+import AISimilarMovies from "./AISimilarMovies";
+import { Separator } from "@/components/ui/separator";
 
 interface MovieModalProps {
   imdbID: string;
@@ -92,11 +95,30 @@ const MovieModal = ({ imdbID, onClose }: MovieModalProps) => {
               </div>
             </div>
 
-            <PlatformLinks title={movie.Title} imdbID={movie.imdbID} />
+            <PlatformLinks 
+              title={movie.Title} 
+              imdbID={imdbID}
+            />
 
             <div>
               <h3 className="text-lg font-semibold mb-2">{t("plot", language)}</h3>
               <p className="text-muted-foreground">{movie.Plot}</p>
+            </div>
+
+            <Separator className="my-6" />
+
+            <div className="space-y-4">
+              <AIMovieReview 
+                title={movie.Title}
+                year={movie.Year}
+                plot={movie.Plot}
+              />
+              
+              <AISimilarMovies
+                title={movie.Title}
+                genre={movie.Genre}
+                year={movie.Year}
+              />
             </div>
 
             <div>

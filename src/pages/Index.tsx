@@ -10,6 +10,7 @@ import MovieModal from "@/components/MovieModal";
 import EmptyState from "@/components/EmptyState";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import AIRecommendations from "@/components/AIRecommendations";
+import AIWatchPlan from "@/components/AIWatchPlan";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
@@ -115,8 +116,9 @@ const Index = () => {
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
 
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto space-y-4">
           <AIRecommendations />
+          <AIWatchPlan />
         </div>
 
         {isLoading && (
