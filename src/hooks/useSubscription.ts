@@ -8,32 +8,15 @@ export const useSubscription = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkSubscription = async () => {
-      if (!user) {
-        setIsPro(false);
-        setLoading(false);
-        return;
-      }
+    // Temporarily making Pro free for all logged-in users
+    if (!user) {
+      setIsPro(false);
+      setLoading(false);
+      return;
+    }
 
-      try {
-        const { data, error } = await supabase
-          .from("user_subscriptions")
-          .select("subscription_type, is_active")
-          .eq("user_id", user.id)
-          .single();
-
-        if (error) throw error;
-
-        setIsPro(data?.subscription_type === "pro" && data?.is_active === true);
-      } catch (error) {
-        console.error("Subscription check error:", error);
-        setIsPro(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkSubscription();
+    setIsPro(true);
+    setLoading(false);
   }, [user]);
 
   return { isPro, loading };

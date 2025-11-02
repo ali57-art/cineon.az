@@ -13,8 +13,8 @@ const SubscriptionPlans = () => {
 
   const handleUpgrade = () => {
     toast({
-      title: t("comingSoon", language),
-      description: "Premium abunəlik tezliklə əlçatan olacaq",
+      title: t("success", language),
+      description: "Pro funksiyaları hazırda hamı üçün aktivdir",
     });
   };
 
