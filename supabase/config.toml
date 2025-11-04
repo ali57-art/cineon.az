@@ -6,6 +6,9 @@ verify_jwt = true
 [functions.ai-movie-review]
 verify_jwt = true
 
+[functions.ai-movie-summary]
+verify_jwt = true
+
 [functions.ai-similar-movies]
 verify_jwt = true
 

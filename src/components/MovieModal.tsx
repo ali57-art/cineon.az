@@ -13,6 +13,7 @@ import { t } from "@/i18n/translations";
 import PlatformLinks from "./PlatformLinks";
 import AIMovieReview from "./AIMovieReview";
 import AISimilarMovies from "./AISimilarMovies";
+import AIMovieSummary from "./AIMovieSummary";
 import { Separator } from "@/components/ui/separator";
 
 interface MovieModalProps {
@@ -108,6 +109,13 @@ const MovieModal = ({ imdbID, onClose }: MovieModalProps) => {
             <Separator className="my-6" />
 
             <div className="space-y-4">
+              <AIMovieSummary 
+                title={movie.Title}
+                year={movie.Year}
+                plot={movie.Plot}
+                genre={movie.Genre}
+              />
+
               <AIMovieReview 
                 title={movie.Title}
                 year={movie.Year}
