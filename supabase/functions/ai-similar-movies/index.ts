@@ -11,7 +11,34 @@ serve(async (req) => {
   }
 
   try {
-    const { title, genre, year, language } = await req.json();
+    const body = await req.json();
+    
+    // Input validation
+    if (!body.title || typeof body.title !== 'string') {
+      return new Response(JSON.stringify({ error: 'Başlıq tələb olunur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (body.title.length > 200) {
+      return new Response(JSON.stringify({ error: 'Başlıq çox uzundur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (body.genre && body.genre.length > 100) {
+      return new Response(JSON.stringify({ error: 'Janr çox uzundur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Sanitize inputs to prevent prompt injection
+    const title = body.title.replace(/[\n\r]/g, ' ').trim();
+    const genre = body.genre?.replace(/[\n\r]/g, ' ').trim() || '';
+    const year = body.year?.replace(/[\n\r]/g, ' ').trim() || '';
+    const language = body.language?.trim() || 'az';
+    
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {

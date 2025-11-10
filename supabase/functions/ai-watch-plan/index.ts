@@ -11,7 +11,26 @@ serve(async (req) => {
   }
 
   try {
-    const { preferences, language } = await req.json();
+    const body = await req.json();
+    
+    // Input validation
+    if (!body.preferences || typeof body.preferences !== 'string') {
+      return new Response(JSON.stringify({ error: 'Tərcühlər tələb olunur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (body.preferences.length > 1000) {
+      return new Response(JSON.stringify({ error: 'Tərcühlər çox uzundur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Sanitize inputs to prevent prompt injection
+    const preferences = body.preferences.replace(/[\n\r]/g, ' ').trim();
+    const language = body.language?.trim() || 'az';
+    
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {

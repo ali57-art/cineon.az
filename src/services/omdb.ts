@@ -1,7 +1,5 @@
 import { Movie, MovieDetail, SearchResponse } from "@/types/movie";
-
-const API_KEY = "ed745323"; // OMDb API key
-const BASE_URL = "https://www.omdbapi.com/";
+import { supabase } from "@/integrations/supabase/client";
 
 export type ContentType = "movie" | "series" | "episode" | "";
 
@@ -11,18 +9,15 @@ export const searchMovies = async (
   type: ContentType = ""
 ): Promise<SearchResponse> => {
   try {
-    let url = `${BASE_URL}?apikey=${API_KEY}&s=${encodeURIComponent(query)}&page=${page}`;
-    if (type) {
-      url += `&type=${type}`;
-    }
+    const { data, error } = await supabase.functions.invoke('omdb-proxy', {
+      body: { 
+        searchQuery: query,
+        type: type || undefined,
+        page
+      }
+    });
     
-    const response = await fetch(url);
-    
-    if (!response.ok) {
-      throw new Error("Failed to fetch movies");
-    }
-    
-    const data = await response.json();
+    if (error) throw error;
     
     if (data.Response === "False") {
       throw new Error(data.Error || "No movies found");
@@ -37,15 +32,11 @@ export const searchMovies = async (
 
 export const getMovieDetails = async (imdbID: string): Promise<MovieDetail> => {
   try {
-    const response = await fetch(
-      `${BASE_URL}?apikey=${API_KEY}&i=${imdbID}&plot=full`
-    );
+    const { data, error } = await supabase.functions.invoke('omdb-proxy', {
+      body: { imdbId: imdbID }
+    });
     
-    if (!response.ok) {
-      throw new Error("Failed to fetch movie details");
-    }
-    
-    const data = await response.json();
+    if (error) throw error;
     
     if (data.Response === "False") {
       throw new Error(data.Error || "Movie not found");

@@ -12,7 +12,33 @@ serve(async (req) => {
   }
 
   try {
-    const { genre, language, type } = await req.json();
+    const body = await req.json();
+    
+    // Input validation
+    if (!body.genre || typeof body.genre !== 'string') {
+      return new Response(JSON.stringify({ error: 'Janr tələb olunur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (body.genre.length > 100) {
+      return new Response(JSON.stringify({ error: 'Janr çox uzundur' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    if (body.type && !['movie', 'series'].includes(body.type)) {
+      return new Response(JSON.stringify({ error: 'Yanlış növ' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Sanitize inputs to prevent prompt injection
+    const genre = body.genre.replace(/[\n\r]/g, ' ').trim();
+    const language = body.language?.trim() || 'az';
+    const type = body.type?.trim() || 'movie';
+    
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     if (!LOVABLE_API_KEY) {
