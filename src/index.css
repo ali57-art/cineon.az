@@ -2,44 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Cineon Design System — "Sənin Kinon"
+   Cinematic, dark-first, premium. All colors HSL.
 */
 
 @layer base {
   :root {
-    --background: 217 33% 17%;
-    --foreground: 0 0% 98%;
+    /* Dark cinematic surface */
+    --background: 240 20% 5%;        /* #0A0A0F cineon-black */
+    --foreground: 210 17% 98%;       /* #F8F9FA */
 
-    --card: 217 33% 15%;
-    --card-foreground: 0 0% 98%;
+    --card: 240 22% 9%;              /* #1A1A26 surface */
+    --card-foreground: 210 17% 98%;
 
-    --popover: 217 33% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 240 22% 7%;
+    --popover-foreground: 210 17% 98%;
 
-    --primary: 217 91% 60%;
+    /* Cineon Red */
+    --primary: 355 78% 56%;          /* #E63946 */
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 355 78% 66%;
+    --primary-deep: 355 82% 41%;     /* #C1121F */
 
-    --secondary: 217 33% 20%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 240 22% 12%;
+    --secondary-foreground: 210 17% 98%;
 
-    --muted: 217 33% 25%;
-    --muted-foreground: 215 16% 65%;
+    --muted: 240 18% 16%;
+    --muted-foreground: 240 12% 58%; /* #8A8AA0 */
 
-    --accent: 217 91% 65%;
+    --accent: 355 78% 56%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 217 33% 25%;
-    --input: 217 33% 20%;
-    --ring: 217 91% 60%;
+    --border: 240 22% 17%;           /* #2A2A3E */
+    --input: 240 22% 14%;
+    --ring: 355 78% 56%;
 
-    --radius: 0.75rem;
+    --gold: 51 100% 50%;             /* #FFD700 */
+    --silver: 240 8% 78%;            /* #C0C0C8 */
 
-    --gradient-hero: linear-gradient(135deg, hsl(217 91% 60% / 0.2), hsl(217 91% 40% / 0.1));
-    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.3);
+    --radius: 0.875rem;
+
+    /* Gradients */
+    --gradient-hero: radial-gradient(ellipse at top, hsl(355 78% 56% / 0.18), transparent 60%),
+                     linear-gradient(180deg, hsl(240 20% 5%) 0%, hsl(240 22% 7%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-deep)) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(240 22% 11%) 0%, hsl(240 22% 8%) 100%);
+
+    /* Shadows */
+    --shadow-glow: 0 0 48px hsl(var(--primary) / 0.35);
+    --shadow-card: 0 8px 32px hsl(240 30% 2% / 0.6);
+    --shadow-elegant: 0 20px 60px -15px hsl(var(--primary) / 0.4);
   }
 }
 
@@ -48,37 +63,56 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
   }
 }
 
 @layer utilities {
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-out;
+  .bg-gradient-hero { background: var(--gradient-hero); }
+  .bg-gradient-primary { background: var(--gradient-primary); }
+  .bg-gradient-card { background: var(--gradient-card); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
-  .animate-slide-up {
-    animation: slide-up 0.6s ease-out;
-  }
+  .animate-fade-in { animation: fade-in 0.5s ease-out; }
+  .animate-slide-up { animation: slide-up 0.6s ease-out; }
+  .animate-reel-spin { animation: reel-spin 8s linear infinite; }
+  .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
 
   @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes slide-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes reel-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 24px hsl(var(--primary) / 0.3); }
+    50% { box-shadow: 0 0 48px hsl(var(--primary) / 0.6); }
   }
 }

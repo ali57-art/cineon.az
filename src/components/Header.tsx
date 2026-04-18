@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
 import { useSubscription } from "@/hooks/useSubscription";
 import LanguageSwitcher from "./LanguageSwitcher";
+import cineonReel from "@/assets/cineon-reel.png";
 
 interface HeaderProps {
   onShowPlans?: () => void;
@@ -16,46 +17,53 @@ const Header = ({ onShowPlans }: HeaderProps) => {
   const { isPro } = useSubscription();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-card/80 backdrop-blur-lg">
-      <div className="container mx-auto px-4 h-[73px] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img 
-            src="/src/assets/questoindex-logo.png" 
-            alt="QuestoIndex" 
-            className="h-10 w-10 object-contain"
-          />
-          <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            QuestoIndex
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="container mx-auto px-4 h-[72px] flex items-center justify-between">
+        <a href="/" className="flex items-center gap-2 group" aria-label="Cineon">
+          <span className="text-3xl font-display tracking-wide text-foreground leading-none">
+            Cine
           </span>
-        </div>
-        
-        <div className="flex items-center gap-3">
+          <img
+            src={cineonReel}
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain transition-transform duration-700 group-hover:rotate-180"
+          />
+          <span className="text-3xl font-display tracking-wide text-foreground leading-none">
+            n
+          </span>
+        </a>
+
+        <div className="flex items-center gap-2 md:gap-3">
           {isPro && (
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-              <Crown className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-primary">Pro</span>
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30">
+              <Crown className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-semibold text-primary uppercase tracking-wider">Pro</span>
             </div>
           )}
           {onShowPlans && (
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={onShowPlans}
-              className="gap-2"
+              className="gap-2 border-primary/40 hover:bg-primary/10 hover:text-primary hover:border-primary"
             >
               <Crown className="w-4 h-4" />
-              {isPro ? t("currentPlan", language) : t("upgradeToPro", language)}
+              <span className="hidden sm:inline">
+                {isPro ? t("currentPlan", language) : t("upgradeToPro", language)}
+              </span>
             </Button>
           )}
           <LanguageSwitcher />
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="sm"
             onClick={signOut}
             className="gap-2"
           >
             <LogOut className="w-4 h-4" />
-            {t("logout", language)}
+            <span className="hidden sm:inline">{t("logout", language)}</span>
           </Button>
         </div>
       </div>
