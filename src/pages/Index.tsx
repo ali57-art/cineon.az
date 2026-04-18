@@ -8,6 +8,7 @@ import SearchBar from "@/components/SearchBar";
 import MovieGrid from "@/components/MovieGrid";
 import MovieModal from "@/components/MovieModal";
 import EmptyState from "@/components/EmptyState";
+import Footer from "@/components/Footer";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import AIRecommendations from "@/components/AIRecommendations";
 import AIWatchPlan from "@/components/AIWatchPlan";
@@ -97,14 +98,22 @@ const Index = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 py-8 space-y-12">
-        <div className="text-center space-y-4 animate-fade-in">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-pulse">
-            {t("welcome", language)}
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            {t("searchMovies", language)}
-          </p>
-        </div>
+        {/* Cinematic Hero */}
+        <section className="relative -mx-4 px-4 py-20 md:py-28 bg-gradient-hero overflow-hidden rounded-b-3xl">
+          <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary)/0.4),transparent_40%),radial-gradient(circle_at_70%_80%,hsl(var(--primary-deep)/0.3),transparent_40%)]" />
+          <div className="relative text-center space-y-6 animate-fade-in max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-xs font-mono uppercase tracking-[0.2em] text-primary">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Cineon Platform
+            </div>
+            <h1 className="font-display text-6xl md:text-8xl lg:text-9xl tracking-tight leading-[0.9] text-foreground">
+              Sənin <span className="text-gradient-primary">Kinon</span>
+            </h1>
+            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Minlərlə film. Bir platform. Sənin seçiminlə.
+            </p>
+          </div>
+        </section>
 
         {showPlans && (
           <div className="animate-fade-in">
@@ -173,6 +182,7 @@ const Index = () => {
           />
         )}
       </main>
+      <Footer />
     </div>
   );
 };
