@@ -98,20 +98,45 @@ const Index = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 py-8 space-y-12">
-        {/* Cinematic Hero */}
-        <section className="relative -mx-4 px-4 py-20 md:py-28 bg-gradient-hero overflow-hidden rounded-b-3xl">
-          <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary)/0.4),transparent_40%),radial-gradient(circle_at_70%_80%,hsl(var(--primary-deep)/0.3),transparent_40%)]" />
-          <div className="relative text-center space-y-6 animate-fade-in max-w-4xl mx-auto">
+        {/* Cinematic Hero v2 */}
+        <section className="relative -mx-4 px-4 min-h-[85vh] flex items-center justify-center bg-cineon-hero overflow-hidden rounded-b-3xl">
+          <div className="cineon-particles" aria-hidden="true" />
+          <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary)/0.35),transparent_45%),radial-gradient(circle_at_75%_80%,hsl(var(--primary-deep)/0.3),transparent_45%)]" />
+
+          <div className="relative text-center space-y-8 animate-fade-in max-w-4xl mx-auto py-20">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-xs font-mono uppercase tracking-[0.2em] text-primary">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Cineon Platform
             </div>
-            <h1 className="font-display text-6xl md:text-8xl lg:text-9xl tracking-tight leading-[0.9] text-foreground">
-              Sənin <span className="text-gradient-primary">Kinon</span>
+
+            <h1 className="font-display font-black text-foreground leading-[0.95] text-[48px] sm:text-6xl md:text-7xl lg:text-[88px]">
+              {t("heroTitle", language)}
             </h1>
+
             <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Minlərlə film. Bir platform. Sənin seçiminlə.
+              {t("heroSubtitle", language)}
             </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <button
+                onClick={() => navigate("/movies")}
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-105 shadow-elegant"
+              >
+                🎬 {t("browseMovies", language)}
+              </button>
+              <button
+                onClick={() => navigate("/ai-recommend")}
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border-2 border-primary text-foreground font-semibold hover:bg-primary/10 transition-all hover:scale-105"
+              >
+                🤖 {t("findWithAI", language)}
+              </button>
+            </div>
+          </div>
+
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-muted-foreground animate-bounce-slow" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
           </div>
         </section>
 

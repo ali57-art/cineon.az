@@ -73,7 +73,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight;
+    @apply font-display;
+    letter-spacing: 0.02em;
   }
 }
 
@@ -114,5 +115,51 @@
   @keyframes glow-pulse {
     0%, 100% { box-shadow: 0 0 24px hsl(var(--primary) / 0.3); }
     50% { box-shadow: 0 0 48px hsl(var(--primary) / 0.6); }
+  }
+
+  /* Cineon hero gradient + particles */
+  .bg-cineon-hero {
+    background: linear-gradient(135deg, #0A0A0F 0%, #1A0A0F 50%, #0F0A1A 100%);
+  }
+
+  .cineon-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .cineon-particles::before,
+  .cineon-particles::after {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, hsl(var(--foreground) / 0.6), transparent 50%),
+      radial-gradient(1px 1px at 75% 45%, hsl(var(--foreground) / 0.5), transparent 50%),
+      radial-gradient(1.5px 1.5px at 40% 70%, hsl(var(--primary) / 0.7), transparent 50%),
+      radial-gradient(1px 1px at 85% 80%, hsl(var(--foreground) / 0.4), transparent 50%),
+      radial-gradient(1.5px 1.5px at 10% 85%, hsl(var(--foreground) / 0.5), transparent 50%),
+      radial-gradient(1px 1px at 60% 15%, hsl(var(--primary) / 0.6), transparent 50%),
+      radial-gradient(1px 1px at 30% 50%, hsl(var(--foreground) / 0.4), transparent 50%);
+    background-size: 600px 600px;
+    animation: particle-float 60s linear infinite;
+    opacity: 0.7;
+  }
+  .cineon-particles::after {
+    background-size: 400px 400px;
+    animation-duration: 90s;
+    animation-direction: reverse;
+    opacity: 0.5;
+  }
+
+  @keyframes particle-float {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-200px, -200px, 0); }
+  }
+
+  .animate-bounce-slow { animation: bounce-slow 2.4s ease-in-out infinite; }
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
   }
 }

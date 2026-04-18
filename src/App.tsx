@@ -11,6 +11,7 @@ import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import Cartoons from "./pages/Cartoons";
 import Random from "./pages/Random";
+import AIRecommend from "./pages/AIRecommend";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
               <Route path="/series" element={<Series />} />
               <Route path="/cartoons" element={<Cartoons />} />
               <Route path="/random" element={<Random />} />
+              <Route path="/ai-recommend" element={<AIRecommend />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

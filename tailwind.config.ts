@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['DM Sans', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['Bebas Neue', 'Anton', 'Impact', 'sans-serif'],
-        mono: ['Space Mono', 'ui-monospace', 'monospace'],
+        sans: ['"Nunito Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Oswald', 'Anton', 'Impact', 'sans-serif'],
+        mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
