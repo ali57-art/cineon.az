@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LogOut, Crown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
 import { useSubscription } from "@/hooks/useSubscription";
+import { cn } from "@/lib/utils";
 import LanguageSwitcher from "./LanguageSwitcher";
 import cineonReel from "@/assets/cineon-reel.png";
 
@@ -15,9 +17,22 @@ const Header = ({ onShowPlans }: HeaderProps) => {
   const { signOut } = useAuth();
   const { language } = useLanguage();
   const { isPro } = useSubscription();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/70 backdrop-blur-xl">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full border-b border-border/60 bg-background/70 backdrop-blur-xl transition-shadow duration-300",
+        scrolled && "shadow-[0_4px_30px_hsl(240_30%_2%/0.6)]"
+      )}
+    >
       <div className="container mx-auto px-4 h-[72px] flex items-center justify-between">
         <a href="/" className="flex items-center gap-2 group" aria-label="Cineon">
           <span className="text-3xl font-display tracking-wide text-foreground leading-none">

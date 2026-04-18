@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
-import { Home, Film, Tv, Baby, Sparkles } from "lucide-react";
+import { Home, Film, Tv, Baby, Sparkles, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Navigation = () => {
@@ -10,9 +10,10 @@ const Navigation = () => {
 
   const navItems = [
     { path: "/", label: t("home", language), icon: Home },
-    { path: "/movies", label: t("movies", language), icon: Film },
+    { path: "/movies", label: t("discover", language), icon: Film },
     { path: "/series", label: t("series", language), icon: Tv },
     { path: "/cartoons", label: t("cartoons", language), icon: Baby },
+    { path: "/ai-recommend", label: t("aiRecommend", language), icon: Bot },
     { path: "/random", label: t("randomMovie", language), icon: Sparkles },
   ];
 
