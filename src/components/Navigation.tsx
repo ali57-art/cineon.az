@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
-import { Home, Film, Tv, Baby, Sparkles, Bot } from "lucide-react";
+import { Home, Film, Tv, Baby, Sparkles, Bot, Swords } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Navigation = () => {
@@ -13,7 +13,8 @@ const Navigation = () => {
     { path: "/movies", label: t("discover", language), icon: Film },
     { path: "/series", label: t("series", language), icon: Tv },
     { path: "/cartoons", label: t("cartoons", language), icon: Baby },
-    { path: "/ai-recommend", label: t("aiRecommend", language), icon: Bot },
+    { path: "/ai-recommend", label: t("aiRecommend", language), icon: Bot, accent: true },
+    { path: "/duel", label: t("duel", language), icon: Swords },
     { path: "/random", label: t("randomMovie", language), icon: Sparkles },
   ];
 
@@ -33,6 +34,8 @@ const Navigation = () => {
                   "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 whitespace-nowrap",
                   isActive
                     ? "bg-primary text-primary-foreground shadow-lg scale-105"
+                    : (item as any).accent
+                    ? "border border-primary/40 text-primary hover:bg-primary/10 hover:scale-105"
                     : "hover:bg-accent hover:scale-105 text-muted-foreground hover:text-foreground"
                 )}
               >

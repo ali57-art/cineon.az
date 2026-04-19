@@ -15,7 +15,8 @@ import AIWatchPlan from "@/components/AIWatchPlan";
 import GenreGrid from "@/components/GenreGrid";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Film, Bot, Tv, Palette } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Loader2, Film, Bot, Tv, Palette, Star, Sparkles, Flag, TrendingUp } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
 
@@ -143,6 +144,25 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Stats strip */}
+        <section className="grid grid-cols-2 md:grid-cols-4 border-y border-border py-6">
+          {[
+            { icon: Film, num: "10K+", label: t("statsFilms", language) },
+            { icon: Star, num: "2M+", label: t("statsRatings", language) },
+            { icon: Bot, num: "AI", label: t("statsAI", language) },
+            { icon: Flag, num: "AZ", label: t("statsAZ", language) },
+          ].map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div key={i} className="flex flex-col items-center gap-1 px-4 text-center border-r border-border last:border-r-0 [&:nth-child(2)]:max-md:border-r-0">
+                <Icon className="w-5 h-5 text-primary mb-1" />
+                <div className="font-display text-2xl md:text-3xl text-primary tracking-wide">{s.num}</div>
+                <div className="text-[10px] md:text-xs font-mono uppercase tracking-widest text-muted-foreground">{s.label}</div>
+              </div>
+            );
+          })}
+        </section>
+
         {showPlans && (
           <div className="animate-fade-in">
             <SubscriptionPlans />
@@ -179,6 +199,42 @@ const Index = () => {
                   {t("trendingMovies", language)}
                 </h2>
                 <MovieGrid movies={trendingMovies} onMovieClick={handleMovieClick} />
+              </section>
+            )}
+
+            {trendingMovies.length > 0 && (
+              <section className="animate-fade-in">
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <TrendingUp className="w-6 h-6 text-primary" />
+                  {t("topTen", language)}
+                </h2>
+                <ol className="space-y-2">
+                  {trendingMovies.slice(0, 10).map((m, i) => (
+                    <li
+                      key={m.imdbID}
+                      onClick={() => handleMovieClick(m)}
+                      className="group flex items-center gap-4 p-3 rounded-xl border border-border bg-card hover:bg-muted hover:border-primary/40 transition-all cursor-pointer"
+                    >
+                      <span
+                        className={cn(
+                          "font-display text-5xl md:text-6xl font-bold leading-none w-14 md:w-20 text-center",
+                          i === 0 ? "text-[hsl(var(--gold))]" : "text-muted-foreground/30"
+                        )}
+                      >
+                        {i + 1}
+                      </span>
+                      {m.Poster !== "N/A" && (
+                        <img src={m.Poster} alt={m.Title} className="w-12 h-16 object-cover rounded-md" loading="lazy" />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-display text-base md:text-lg tracking-wide truncate group-hover:text-primary transition-colors">
+                          {m.Title}
+                        </h3>
+                        <p className="text-xs text-muted-foreground font-mono uppercase">{m.Year} · {m.Type}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
               </section>
             )}
 
