@@ -39,7 +39,7 @@ serve(async (req) => {
       });
     }
 
-    if (body.type && !["movie", "series"].includes(body.type)) {
+    if (body.type && !["movie", "series", "both"].includes(body.type)) {
       return new Response(JSON.stringify({ error: "Yanlış növ" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -57,16 +57,24 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
+    const typeInstruction =
+      type === "series"
+        ? "YALNIZ TV serialları tövsiyə et (filmlər YOX). Hər tövsiyənin type sahəsi 'series' olmalıdır."
+        : type === "both"
+        ? "Filmlər və TV serialları qarışıq tövsiyə et. Hər tövsiyə üçün type sahəsini düzgün təyin et ('movie' və ya 'series')."
+        : "YALNIZ filmlər tövsiyə et (TV serialları YOX). Hər tövsiyənin type sahəsi 'movie' olmalıdır.";
+
     const systemPrompt = `Sən Cineon film platformasının AI köməkçisisən. İstifadəçiyə ${language} dilində, mehribanane cavab ver.
 
 QAYDALAR:
-- 3-5 film/serial tövsiyə et (istifadəçinin tələbinə uyğun sayda)
-- Hər biri üçün: dəqiq orijinal ad (axtarış üçün vacibdir), il, qısa 1-2 cümləlik səbəb
+- 3-5 ${type === "series" ? "serial" : type === "both" ? "film/serial" : "film"} tövsiyə et
+- Hər biri üçün: dəqiq orijinal İngilis adı (axtarış üçün vacibdir), il, qısa 1-2 cümləlik səbəb, type
+- ${typeInstruction}
 - Yalnız tool calling ilə strukturlaşdırılmış cavab qaytar`;
 
     const userPrompt = prompt
-      ? `İstifadəçi belə bir film/serial axtarır: "${prompt}"`
-      : `${genre} janrında ${type === "series" ? "serial" : "film"} tövsiyə et.`;
+      ? `İstifadəçi belə bir ${type === "series" ? "serial" : type === "both" ? "film və ya serial" : "film"} axtarır: "${prompt}"`
+      : `${genre} janrında ${type === "series" ? "serial" : type === "both" ? "film və ya serial" : "film"} tövsiyə et.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -103,8 +111,9 @@ QAYDALAR:
                         title: { type: "string", description: "Orijinal İngilis adı" },
                         year: { type: "string" },
                         description: { type: "string", description: "Niyə bu film? 1-2 cümlə" },
+                        type: { type: "string", enum: ["movie", "series"], description: "movie və ya series" },
                       },
-                      required: ["title", "year", "description"],
+                      required: ["title", "year", "description", "type"],
                       additionalProperties: false,
                     },
                   },

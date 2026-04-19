@@ -12,9 +12,10 @@ import Footer from "@/components/Footer";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import AIRecommendations from "@/components/AIRecommendations";
 import AIWatchPlan from "@/components/AIWatchPlan";
+import GenreGrid from "@/components/GenreGrid";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, Film, Bot, Tv, Palette } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { t } from "@/i18n/translations";
 
@@ -122,13 +123,15 @@ const Index = () => {
                 onClick={() => navigate("/movies")}
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-105 shadow-elegant"
               >
-                🎬 {t("browseMovies", language)}
+                <Film className="w-5 h-5" />
+                {t("browseMovies", language)}
               </button>
               <button
                 onClick={() => navigate("/ai-recommend")}
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border-2 border-primary text-foreground font-semibold hover:bg-primary/10 transition-all hover:scale-105"
               >
-                🤖 {t("findWithAI", language)}
+                <Bot className="w-5 h-5" />
+                {t("findWithAI", language)}
               </button>
             </div>
           </div>
@@ -167,10 +170,13 @@ const Index = () => {
 
         {!isLoading && !searchQuery && (
           <div className="space-y-12">
+            <GenreGrid />
+
             {trendingMovies.length > 0 && (
               <section className="animate-fade-in">
                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  🎬 {t("trendingMovies", language)}
+                  <Film className="w-6 h-6 text-primary" />
+                  {t("trendingMovies", language)}
                 </h2>
                 <MovieGrid movies={trendingMovies} onMovieClick={handleMovieClick} />
               </section>
@@ -179,7 +185,8 @@ const Index = () => {
             {trendingSeries.length > 0 && (
               <section className="animate-fade-in">
                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  📺 {t("trendingSeries", language)}
+                  <Tv className="w-6 h-6 text-primary" />
+                  {t("trendingSeries", language)}
                 </h2>
                 <MovieGrid movies={trendingSeries} onMovieClick={handleMovieClick} />
               </section>
@@ -188,7 +195,8 @@ const Index = () => {
             {trendingCartoons.length > 0 && (
               <section className="animate-fade-in">
                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  🎨 {t("trendingCartoons", language)}
+                  <Palette className="w-6 h-6 text-primary" />
+                  {t("trendingCartoons", language)}
                 </h2>
                 <MovieGrid movies={trendingCartoons} onMovieClick={handleMovieClick} />
               </section>
