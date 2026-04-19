@@ -34,7 +34,7 @@ const Header = ({ onShowPlans }: HeaderProps) => {
       )}
     >
       <div className="container mx-auto px-4 h-[72px] flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2 group" aria-label="Cineon">
+        <a href="/" className="flex items-center gap-2 group relative" aria-label="Cineon">
           <span className="text-3xl font-display tracking-wide text-foreground leading-none">
             Cine
           </span>
@@ -45,9 +45,10 @@ const Header = ({ onShowPlans }: HeaderProps) => {
             height={32}
             className="h-8 w-8 object-contain transition-transform duration-700 group-hover:rotate-180"
           />
-          <span className="text-3xl font-display tracking-wide text-foreground leading-none">
+          <span className="text-3xl font-display tracking-wide text-primary leading-none">
             n
           </span>
+          <span className="absolute -bottom-0.5 -right-2 w-1.5 h-1.5 rounded-full bg-primary animate-pulse-red" />
         </a>
 
         <div className="flex items-center gap-2 md:gap-3">
