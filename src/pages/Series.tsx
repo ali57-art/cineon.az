@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Movie } from "@/types/movie";
 import { searchMovies } from "@/services/omdb";
 import Header from "@/components/Header";
@@ -15,15 +16,16 @@ const Series = () => {
   const [loading, setLoading] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams] = useSearchParams();
 
   const handleSearch = async (query: string) => {
     setLoading(true);
     setSearchQuery(query);
-    
+
     try {
       const response = await searchMovies(query, 1, "series");
-      setMovies(response.Search);
-      toast.success(`Found ${response.totalResults} series`);
+      setMovies(response.Search || []);
+      toast.success(`Found ${response.totalResults ?? 0} series`);
     } catch (error) {
       toast.error("Failed to search series. Please try again.");
       setMovies([]);
@@ -32,6 +34,14 @@ const Series = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const q = searchParams.get("search");
+    if (q && q.trim()) {
+      handleSearch(q.trim());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const handleMovieClick = (movie: Movie) => {
     setSelectedMovieId(movie.imdbID);
