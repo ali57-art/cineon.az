@@ -1,80 +1,61 @@
 
-Bu çox böyük və hərtərəfli bir spec — 11 prompt, faktiki olaraq tam yenidən qurulma. Bütün şeyi bir mesajda etmək keyfiyyət baxımından risklidir, ona görə də mərhələ-mərhələ bölürəm. İlk mesajda bu **PROMPT 1 + 2 + 11 (qismən)** üçün konkret plan təqdim edirəm — bu, brendin əsasını qoyur və qalan promptlar üçün möhkəm zəmin yaradır. Qalanları sonrakı mesajlarda ardıcıl edəcəyik.
+İstifadəçi 3 şey istəyir:
+1. Bütün emojiləri Lucide ikonları ilə əvəz et
+2. Spec-in qalan hissəsini davam etdir (Faza C-G)
+3. Seriallar bölməsini də işlək et
+4. Öz AI API-sini əlavə edəcək
 
-## Vacib texniki düzəlişlər (spec-dən fərqli edəcəyim şeylər)
+Spec çox böyükdür — bir mesajda hər şeyi etmək olmaz. Əvvəlcə fokuslu bir mərhələ təklif edirəm.
 
-1. **AI provider**: Spec Anthropic Claude API-ni birbaşa brauzerdən çağırmağı təklif edir (`anthropic-dangerous-direct-browser-calls: true` + `VITE_ANTHROPIC_API_KEY`). Bu **təhlükəsizlik baxımından səhvdir** — API açarı bütün istifadəçilərə görünər və oğurlana bilər. Bu layihədə artıq **Lovable AI** + Edge Functions (`ai-recommendations`, `ai-movie-review`, `ai-similar-movies`, `ai-watch-plan`, `ai-movie-summary`) qurulub və `LOVABLE_API_KEY` server tərəfində saxlanılır. Mövcud sistemi genişləndirəcəyik, Anthropic-ə keçməyəcəyik. İstifadəçidən API açarı istəməyə ehtiyac yoxdur.
-2. **Şriftlər**: Spec Oswald + Nunito Sans istəyir. Hazırda Bebas Neue + DM Sans var (əvvəlki mərhələdə qurulmuşdu). Yeni spec-ə uyğun dəyişəcəyik — Azərbaycan diakritikləri (ə,ğ,ı,ö,ü,ç,ş) üçün Nunito Sans daha yaxşıdır.
-3. **Watchlist**: Spec localStorage istəyir, amma Lovable Cloud + auth artıq qurulub. İstifadəçi bunu sonrakı mərhələdə dəqiqləşdirəcək — hələlik mövcud auth-a toxunmuruq.
+**Qeyd AI API haqqında:** Layihədə artıq Lovable AI işləyir (LOVABLE_API_KEY pre-configured). İstifadəçi öz API açarını əlavə etmək istəyir — bu, Anthropic Claude və ya OpenAI ola bilər. Bunu aydınlaşdırmaq lazımdır, amma plan-da default olaraq mövcud Lovable AI saxlayıram, istifadəçi sonra dəyişə bilər.
 
-## Bu mesajda görəcəyim iş — Faza A: Brand v2 əsası
+## Bu mərhələdə görəcəyim iş
 
-### 1. Şrift sistemi yenilənməsi
-- `index.html` — Google Fonts link-ini Oswald + Nunito Sans + Space Mono ilə əvəz et
-- `tailwind.config.ts` — `fontFamily` təzələ:
-  - `display: ['Oswald', ...]`
-  - `sans: ['Nunito Sans', ...]`
-  - `mono: ['Space Mono', ...]`
-- `src/index.css` — başlıqlar üçün `letter-spacing: 0.02em`
+### 1. Emoji → Lucide ikon əvəzlənməsi (bütün sayt)
+Tarama ilə tapılan emoji yerləri:
+- `AIRecommend.tsx` — mood chips (😂 🔥 👻 🚀 💕 🧠 👨‍👩‍👧 🎭 ⚡ 😢) → Laugh, Flame, Ghost, Rocket, Heart, Brain, Users, Drama, Zap, CloudRain
+- `Index.tsx` — hero CTA (🎬 🤖) → Film, Bot
+- `Navigation.tsx` — nav linklər varsa
+- `Footer.tsx` — sosial/badge ikonları
+- `Header.tsx` — istifadəçi düymələri
+- `translations.ts` — emoji daxil edən label-ləri təmizlə (yalnız mətn qalsın, ikon ayrı render edilsin)
+- `MovieCard.tsx`, `MovieModal.tsx` — varsa
+- Toast mesajlarındakı emojiləri sil
 
-### 2. Rəng tokeni dəqiqləşdirməsi
-- Mövcud HSL token sistemi saxlanır (Tailwind ilə uyğun), amma yeni spec rəngləri ilə incə tənzimləmə:
-  - `--card: #1C1C2A` → HSL
-  - `--background: #0A0A0F` (var)
-  - `--primary: #E63946` (var)
-- Yeni utility: `bg-cineon-surface` istəmirəm — mövcud `card`/`background`/`muted` token-lərinə güvənək
+### 2. Seriallar üçün AI Tövsiyə dəstəyi
+- `AIRecommend.tsx`-ə **content type toggle** əlavə et: `[Filmlər] [Seriallar] [Hər ikisi]`
+- Edge function `ai-recommendations` artıq `type` parametrini qəbul edir — frontend-dən göndər
+- Sistem prompt-unu yenilə ki, type-a görə film/serial/hər ikisi tövsiyə etsin
+- Nəticə kartlarındakı "Axtar" düyməsi type-a görə `/movies` və ya `/series`-ə yönləndirsin
+- Hər tövsiyə kartında type badge: "Film" və ya "Serial"
 
-### 3. Navbar yenidən dizayn (`Header.tsx`)
-- Sol: Loqo (mövcud "Cine[reel]n" qalır — yaxşı işləyir)
-- Orta (desktop): nav linklər — `Əsas Səhifə`, `Kəşfet`, `Top Filmlər`, `AI Tövsiyə`
-  - Mövcud `Navigation.tsx` komponentini header-ə inteqrasiya et və ya saxla — qərar: ayrı saxla, amma label-ləri yenilə
-- Sağ: 🔍 axtar, ❤️ favoritlər (placeholder), 📋 siyahı (placeholder), Pro badge, dil, çıxış
-- Scroll zamanı kölgə: `useState` + `scroll` listener ilə `box-shadow` əlavə et
-- `backdrop-filter: blur(20px)` artıq var
+### 3. Faza E (qismən) — Ana səhifəyə Janr Kəşfi grid-i
+- `Index.tsx`-ə Hero-dan sonra "Janra Görə Kəşfet" bölməsi əlavə et
+- 3x3 grid (mobile 2x4), hər janr üçün gradient kart + Lucide ikon
+- Tıklayanda `/movies?genre=X` və ya search-ə yönləndirsin
+- Mövcud trending bölməsindən əvvəl və ya sonra yerləşdir
 
-### 4. Hero section yenidən dizayn (`src/pages/Index.tsx`)
-- Fullwidth gradient: `linear-gradient(135deg, #0A0A0F 0%, #1A0A0F 50%, #0F0A1A 100%)`
-- Pure-CSS animated particle effect (kiçik ulduz nöqtələri, `@keyframes` ilə float)
-- Başlıq: "SƏNİN KİNON" — Oswald 900, responsive (88px desktop / 48px mobile)
-- Alt: "Minlərlə film. Bir klik. Sənin seçiminlə."
-- 2 CTA:
-  - `[🎬 Filmlərə Bax]` → `/movies`
-  - `[🤖 AI ilə Film Tap]` → `/ai-recommend` (sonrakı mərhələdə yaradılacaq, hələlik `/random` və ya disabled)
-- Min height: `85vh`
-- Scroll-down indicator: animasiyalı chevron
+### 4. Toxunulacaq fayllar
+- `src/pages/AIRecommend.tsx` — emoji-siz mood chips + type toggle + serial dəstəyi
+- `src/pages/Index.tsx` — emoji-siz CTA + janr grid
+- `src/components/Navigation.tsx` — emoji yoxla
+- `src/components/Footer.tsx` — emoji yoxla
+- `src/components/Header.tsx` — emoji yoxla
+- `src/components/MovieCard.tsx` — yoxla
+- `src/i18n/translations.ts` — emoji-li label-ləri təmizlə
+- `supabase/functions/ai-recommendations/index.ts` — type parametrini sistem prompt-a daxil et
+- Yeni: `src/components/GenreGrid.tsx` — yenidən istifadə üçün
 
-### 5. Yeni route placeholder
-- `/ai-recommend` route-u — əsl səhifə Faza B-də qurulacaq, hələlik sadə "Tezliklə" placeholder
+## Etməyəcəyim (sonrakı mərhələlərdə)
 
-### 6. Naviqasiya label-ləri
-- `Navigation.tsx` mövcud — `Əsas Səhifə`, `Kəşfet` (Movies), `AI Tövsiyə` daxil et
-- i18n tərcümələrinə yeni açar `aiRecommend` əlavə et
+- Faza C: range slider filtrləri (IMDb, il)
+- Faza D: Watchlist (auth ilə Cloud-da, yoxsa localStorage? — soruşacağam sonra)
+- Faza F: Multi-step AI Quiz wizard
+- Faza G: Mobile bottom nav, light theme, swipe gestures
+- Trailer embed, AI Q&A tab, Top 10 səhifəsi
 
-## Toxunulacaq fayllar
+## "Öz AI API-sini əlavə edəcəm" haqqında qeyd
 
-- `index.html` (şrift link)
-- `tailwind.config.ts` (fontFamily)
-- `src/index.css` (letter-spacing, particle keyframes, hero gradient utility)
-- `src/components/Header.tsx` (scroll shadow, nav linklər)
-- `src/components/Navigation.tsx` (label yeniləmə, AI link əlavəsi)
-- `src/pages/Index.tsx` (hero section v2)
-- `src/i18n/translations.ts` (yeni açarlar)
-- `src/App.tsx` (`/ai-recommend` placeholder route)
-- Yeni: `src/pages/AIRecommend.tsx` (sadə placeholder)
+Mövcud sistem **Lovable AI**-dir (LOVABLE_API_KEY) və işləyir. Əgər istifadəçi Anthropic Claude və ya OpenAI açarı əlavə etmək istəyirsə, bunu **edge function-da** secret kimi saxlamaq lazımdır (kod-da yox, brauzerdə yox — təhlükəsizlik üçün). Bu mərhələdə mövcud Lovable AI-də qalıram. İstifadəçi konkret hansı provider-i istədiyini bildirsin — onda secret tool-u ilə açar əlavə edib edge function-u yeniləyəcəyik.
 
-## Bu mərhələdə ETMƏYƏCƏYİM (sonrakı mesajlarda)
-
-- **Faza B**: AI Tövsiyə səhifəsi (Lovable AI ilə, Anthropic deyil) + film detal AI tab-ları
-- **Faza C**: Axtarış/filtr genişləndirilməsi (range slider, URL state)
-- **Faza D**: Watchlist v2 (auth ilə Cloud-da, localStorage deyil — bunu istifadəçidən təsdiq alacağam)
-- **Faza E**: Ana səhifə bölmələri (Trend, Top 10, Gizli Xəzinələr)
-- **Faza F**: AI Quiz wizard
-- **Faza G**: Mobile bottom nav + swipe + light theme
-
-## Risklər və qeydlər
-
-- Spec-də `VITE_ANTHROPIC_API_KEY` və brauzerdən birbaşa Claude çağırışı **TƏHLÜKƏSİZDİR** — etməyəcəyik. Bunun yerinə mövcud Lovable AI edge function-ları genişləndirəcəyik.
-- Watchlist üçün localStorage tələbi auth ilə ziddiyyətdədir — Faza D başlamazdan əvvəl seçim soruşacağam (cloud sync vs localStorage).
-- Mövcud `Bebas Neue` istifadə edən komponentlər (Header loqosu, Footer) Oswald-a keçəcək — vizual yüngül dəyişiklik gözlənilir.
-
-Təsdiq versəniz, Faza A-nı tətbiq edib sonra Faza B (AI Tövsiyə səhifəsi) üçün ayrı mesajda davam edəcəyəm.
+Təsdiq versəniz başlayıram.
