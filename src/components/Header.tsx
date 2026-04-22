@@ -7,6 +7,7 @@ import { t } from "@/i18n/translations";
 import { useSubscription } from "@/hooks/useSubscription";
 import { cn } from "@/lib/utils";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 import cineonReel from "@/assets/cineon-reel.png";
 
 interface HeaderProps {
@@ -72,6 +73,7 @@ const Header = ({ onShowPlans }: HeaderProps) => {
             </Button>
           )}
           <LanguageSwitcher />
+          <ThemeToggle />
           <Button
             variant="ghost"
             size="sm"

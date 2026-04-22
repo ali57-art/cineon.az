@@ -100,36 +100,36 @@ const Index = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 py-8 space-y-12">
-        {/* Cinematic Hero v2 */}
-        <section className="relative -mx-4 px-4 min-h-[85vh] flex items-center justify-center bg-cineon-hero overflow-hidden rounded-b-3xl">
-          <div className="cineon-particles" aria-hidden="true" />
-          <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary)/0.35),transparent_45%),radial-gradient(circle_at_75%_80%,hsl(var(--primary-deep)/0.3),transparent_45%)]" />
+        {/* Cinematic Hero v3 — light premium */}
+        <section className="relative -mx-4 px-4 min-h-[85vh] flex items-center justify-center bg-cineon-hero bg-grain overflow-hidden rounded-b-3xl">
+          {/* Soft red radial glow */}
+          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,hsl(var(--primary)/0.18),transparent_55%),radial-gradient(circle_at_85%_75%,hsl(var(--primary-glow)/0.12),transparent_50%)]" />
 
-          <div className="relative text-center space-y-8 animate-fade-in max-w-4xl mx-auto py-20">
+          <div className="relative text-center space-y-8 animate-fade-in max-w-5xl mx-auto py-20">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/5 text-xs font-mono uppercase tracking-[0.2em] text-primary">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Cineon Platform
             </div>
 
-            <h1 className="font-display font-black text-foreground leading-[0.95] text-[48px] sm:text-6xl md:text-7xl lg:text-[88px]">
+            <h1 className="font-display font-black leading-[0.95] text-[52px] sm:text-7xl md:text-8xl lg:text-[104px] tracking-[-0.02em] text-gradient-headline">
               {t("heroTitle", language)}
             </h1>
 
-            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {t("heroSubtitle", language)}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <button
                 onClick={() => navigate("/movies")}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-105 shadow-elegant"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold transition-all duration-200 hover:scale-[1.03] hover:shadow-elegant active:scale-[0.98]"
               >
                 <Film className="w-5 h-5" />
                 {t("browseMovies", language)}
               </button>
               <button
                 onClick={() => navigate("/ai-recommend")}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border-2 border-primary text-foreground font-semibold hover:bg-primary/10 transition-all hover:scale-105"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl border-2 border-primary/40 text-foreground font-semibold transition-all duration-200 hover:scale-[1.03] hover:border-primary hover:bg-primary/5 active:scale-[0.98]"
               >
                 <Bot className="w-5 h-5" />
                 {t("findWithAI", language)}
@@ -208,23 +208,26 @@ const Index = () => {
                   <TrendingUp className="w-6 h-6 text-primary" />
                   {t("topTen", language)}
                 </h2>
-                <ol className="space-y-2">
+                <ol className="space-y-3">
                   {trendingMovies.slice(0, 10).map((m, i) => (
                     <li
                       key={m.imdbID}
                       onClick={() => handleMovieClick(m)}
-                      className="group flex items-center gap-4 p-3 rounded-xl border border-border bg-card hover:bg-muted hover:border-primary/40 transition-all cursor-pointer"
+                      className="group relative flex items-center gap-4 p-3 md:p-4 rounded-2xl border border-border bg-card shadow-card hover:-translate-y-0.5 hover:shadow-float hover:border-primary/40 transition-all duration-300 cursor-pointer overflow-hidden"
                     >
                       <span
                         className={cn(
-                          "font-display text-5xl md:text-6xl font-bold leading-none w-14 md:w-20 text-center",
-                          i === 0 ? "text-[hsl(var(--gold))]" : "text-muted-foreground/30"
+                          "font-display font-black leading-none w-16 md:w-24 text-center select-none",
+                          "text-6xl md:text-8xl tracking-[-0.04em]",
+                          i === 0
+                            ? "text-transparent [-webkit-text-stroke:2px_hsl(var(--gold))]"
+                            : "text-transparent [-webkit-text-stroke:2px_hsl(var(--muted-foreground)/0.35)] group-hover:[-webkit-text-stroke-color:hsl(var(--primary)/0.6)] transition-colors"
                         )}
                       >
                         {i + 1}
                       </span>
                       {m.Poster !== "N/A" && (
-                        <img src={m.Poster} alt={m.Title} className="w-12 h-16 object-cover rounded-md" loading="lazy" />
+                        <img src={m.Poster} alt={m.Title} className="w-14 h-20 md:w-16 md:h-24 object-cover rounded-lg shadow-card" loading="lazy" />
                       )}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-display text-base md:text-lg tracking-wide truncate group-hover:text-primary transition-colors">
