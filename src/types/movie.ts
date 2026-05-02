@@ -1,12 +1,31 @@
+// Re-export TMDB types
+export type { TMDBMovie, TMDBTV, MediaItem, MediaType } from "@/services/tmdb";
+export { normalizeMedia } from "@/services/tmdb";
+
+// ============================================
+// Legacy OMDb tipləri (geriyə uyğunluq üçün)
+// Yeni kod TMDB tiplərini istifadə etməlidir.
+// ============================================
+
 export interface Movie {
   imdbID: string;
   Title: string;
   Year: string;
-  Type: string;
   Poster: string;
+  Type: string;
 }
 
-export interface MovieDetail extends Movie {
+export interface SearchResponse {
+  Search?: Movie[];
+  totalResults?: string;
+  Response: string;
+  Error?: string;
+}
+
+export interface MovieDetail {
+  imdbID: string;
+  Title: string;
+  Year: string;
   Rated: string;
   Released: string;
   Runtime: string;
@@ -18,22 +37,12 @@ export interface MovieDetail extends Movie {
   Language: string;
   Country: string;
   Awards: string;
-  Ratings: Array<{
-    Source: string;
-    Value: string;
-  }>;
+  Poster: string;
+  Ratings: { Source: string; Value: string }[];
   Metascore: string;
   imdbRating: string;
   imdbVotes: string;
-  DVD: string;
-  BoxOffice: string;
-  Production: string;
-  Website: string;
-  Response: string;
-}
-
-export interface SearchResponse {
-  Search: Movie[];
-  totalResults: string;
+  Type: string;
+  totalSeasons?: string;
   Response: string;
 }
