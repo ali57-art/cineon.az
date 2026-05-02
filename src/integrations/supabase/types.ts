@@ -14,33 +14,247 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity: {
+        Row: {
+          created_at: string | null
+          id: string
+          payload: Json
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          payload?: Json
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          payload?: Json
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      follows: {
+        Row: {
+          created_at: string | null
+          follower_id: string
+          following_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          follower_id: string
+          following_id: string
+        }
+        Update: {
+          created_at?: string | null
+          follower_id?: string
+          following_id?: string
+        }
+        Relationships: []
+      }
+      list_items: {
+        Row: {
+          added_at: string | null
+          id: string
+          list_id: string
+          media_id: number
+          media_type: string
+          notes: string | null
+        }
+        Insert: {
+          added_at?: string | null
+          id?: string
+          list_id: string
+          media_id: number
+          media_type: string
+          notes?: string | null
+        }
+        Update: {
+          added_at?: string | null
+          id?: string
+          list_id?: string
+          media_id?: number
+          media_type?: string
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      list_likes: {
+        Row: {
+          created_at: string | null
+          list_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          list_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          list_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "list_likes_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lists: {
+        Row: {
+          cover_image: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_public: boolean | null
+          name: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          cover_image?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          cover_image?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string | null
+          data: Json | null
+          id: string
+          read: boolean | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string | null
+          data?: Json | null
+          id?: string
+          read?: boolean | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string | null
+          data?: Json | null
+          id?: string
+          read?: boolean | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           created_at: string | null
           email: string | null
           full_name: string | null
           id: string
+          is_public: boolean | null
           preferred_language: string | null
           updated_at: string | null
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
           id: string
+          is_public?: boolean | null
           preferred_language?: string | null
           updated_at?: string | null
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
+          is_public?: boolean | null
           preferred_language?: string | null
           updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
+      ratings: {
+        Row: {
+          created_at: string | null
+          id: string
+          media_id: number
+          media_type: string
+          rating: number | null
+          review: string | null
+          spoiler: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          media_id: number
+          media_type: string
+          rating?: number | null
+          review?: string | null
+          spoiler?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          media_id?: number
+          media_type?: string
+          rating?: number | null
+          review?: string | null
+          spoiler?: boolean | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -66,6 +280,39 @@ export type Database = {
           filter_data?: Json
           filter_name?: string
           id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string | null
+          disliked_genres: number[] | null
+          favorite_actors: number[] | null
+          favorite_genres: number[] | null
+          onboarding_completed: boolean | null
+          preferred_languages: string[] | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          disliked_genres?: number[] | null
+          favorite_actors?: number[] | null
+          favorite_genres?: number[] | null
+          onboarding_completed?: boolean | null
+          preferred_languages?: string[] | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          disliked_genres?: number[] | null
+          favorite_actors?: number[] | null
+          favorite_genres?: number[] | null
+          onboarding_completed?: boolean | null
+          preferred_languages?: string[] | null
           updated_at?: string | null
           user_id?: string
         }
@@ -135,6 +382,8 @@ export type Database = {
           added_at: string | null
           id: string
           imdb_id: string
+          media_id: number | null
+          media_type: string | null
           poster: string | null
           title: string
           type: string
@@ -145,6 +394,8 @@ export type Database = {
           added_at?: string | null
           id?: string
           imdb_id: string
+          media_id?: number | null
+          media_type?: string | null
           poster?: string | null
           title: string
           type: string
@@ -155,11 +406,55 @@ export type Database = {
           added_at?: string | null
           id?: string
           imdb_id?: string
+          media_id?: number | null
+          media_type?: string | null
           poster?: string | null
           title?: string
           type?: string
           user_id?: string
           year?: string | null
+        }
+        Relationships: []
+      }
+      watch_history: {
+        Row: {
+          completed: boolean | null
+          duration_seconds: number | null
+          episode_number: number | null
+          id: string
+          media_id: number
+          media_type: string
+          progress_seconds: number | null
+          season_number: number | null
+          updated_at: string | null
+          user_id: string
+          watched_at: string | null
+        }
+        Insert: {
+          completed?: boolean | null
+          duration_seconds?: number | null
+          episode_number?: number | null
+          id?: string
+          media_id: number
+          media_type: string
+          progress_seconds?: number | null
+          season_number?: number | null
+          updated_at?: string | null
+          user_id: string
+          watched_at?: string | null
+        }
+        Update: {
+          completed?: boolean | null
+          duration_seconds?: number | null
+          episode_number?: number | null
+          id?: string
+          media_id?: number
+          media_type?: string
+          progress_seconds?: number | null
+          season_number?: number | null
+          updated_at?: string | null
+          user_id?: string
+          watched_at?: string | null
         }
         Relationships: []
       }
