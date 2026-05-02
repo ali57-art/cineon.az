@@ -86,7 +86,7 @@ const Index = () => {
       {showPlans && (
         <div className="fixed inset-0 bg-background/90 backdrop-blur-xl z-[100] overflow-y-auto py-12 px-4" onClick={() => setShowPlans(false)}>
           <div onClick={(e) => e.stopPropagation()} className="max-w-5xl mx-auto">
-            <SubscriptionPlans onClose={() => setShowPlans(false)} />
+            <SubscriptionPlans />
           </div>
         </div>
       )}
