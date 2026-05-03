@@ -60,7 +60,7 @@ const Profile = () => {
               <p className="text-muted-foreground">@{profile.username}</p>
               {profile.bio && <p className="text-sm mt-2">{profile.bio}</p>}
             </div>
-            {!isOwn && <FollowButton userId={profile.id} />}
+            {!isOwn && <FollowButton targetUserId={profile.id} />}
           </div>
 
           <div className="grid grid-cols-4 gap-3 mt-6 text-center">
