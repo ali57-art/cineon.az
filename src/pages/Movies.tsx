@@ -1,80 +1,59 @@
-import { useState, useEffect, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Movie } from "@/types/movie";
-import { searchMovies } from "@/services/omdb";
+import { useState } from "react";
 import Header from "@/components/Header";
-import Navigation from "@/components/Navigation";
-import SearchBar from "@/components/SearchBar";
-import MovieGrid from "@/components/MovieGrid";
-import MovieModal from "@/components/MovieModal";
-import EmptyState from "@/components/EmptyState";
-import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import MediaGrid from "@/components/MediaGrid";
+import { useDiscoverMovies, useMovieGenres } from "@/hooks/useMovies";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const SORTS = [
+  { v: "popularity.desc", l: "Populyarlıq" },
+  { v: "vote_average.desc", l: "Reytinq" },
+  { v: "release_date.desc", l: "Ən yeni" },
+  { v: "revenue.desc", l: "Gəlir" },
+];
 
 const Movies = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedMovieId, setSelectedMovieId] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchParams] = useSearchParams();
-
-  const handleSearch = useCallback(async (query: string) => {
-    setLoading(true);
-    setSearchQuery(query);
-
-    try {
-      const response = await searchMovies(query, 1, "movie");
-      setMovies(response.Search);
-      toast.success(`Found ${response.totalResults} movies`);
-    } catch (error) {
-      toast.error("Failed to search movies. Please try again.");
-      setMovies([]);
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Auto-search when `?search=` is provided (e.g. from AI Recommend page)
-  useEffect(() => {
-    const initial = searchParams.get("search");
-    if (initial && initial.trim().length > 0) {
-      handleSearch(initial.trim());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
-
-  const handleMovieClick = (movie: Movie) => {
-    setSelectedMovieId(movie.imdbID);
-  };
+  const [genre, setGenre] = useState<string>("all");
+  const [sort, setSort] = useState("popularity.desc");
+  const [page, setPage] = useState(1);
+  const genres = useMovieGenres();
+  const params: Record<string, string | number> = { sort_by: sort, page, "vote_count.gte": 100 };
+  if (genre !== "all") params.with_genres = genre;
+  const q = useDiscoverMovies(params);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-24">
       <Header />
-      <Navigation />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-12">
-          <SearchBar onSearch={handleSearch} isLoading={loading} />
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <h1 className="font-display text-3xl md:text-4xl">Filmlər</h1>
+          <div className="flex gap-2">
+            <Select value={genre} onValueChange={(v) => { setGenre(v); setPage(1); }}>
+              <SelectTrigger className="w-40"><SelectValue placeholder="Janr" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Bütün janrlar</SelectItem>
+                {genres.data?.genres?.map((g: any) => (
+                  <SelectItem key={g.id} value={String(g.id)}>{g.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={sort} onValueChange={(v) => { setSort(v); setPage(1); }}>
+              <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {SORTS.map(s => <SelectItem key={s.v} value={s.v}>{s.l}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-          </div>
-        ) : movies.length > 0 ? (
-          <MovieGrid movies={movies} onMovieClick={handleMovieClick} />
-        ) : (
-          <EmptyState query={searchQuery} />
-        )}
-      </main>
+        <MediaGrid items={q.data?.results} loading={q.isLoading} fallbackType="movie" />
 
-      {selectedMovieId && (
-        <MovieModal
-          imdbID={selectedMovieId}
-          onClose={() => setSelectedMovieId(null)}
-        />
-      )}
+        <div className="flex justify-center gap-3 pt-6">
+          <Button variant="outline" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>Əvvəlki</Button>
+          <span className="self-center text-sm text-muted-foreground">Səhifə {page}</span>
+          <Button variant="outline" onClick={() => setPage(p => p + 1)}>Sonrakı</Button>
+        </div>
+      </main>
     </div>
   );
 };

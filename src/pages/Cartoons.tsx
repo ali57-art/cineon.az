@@ -1,70 +1,39 @@
 import { useState } from "react";
-import { Movie } from "@/types/movie";
-import { searchMovies } from "@/services/omdb";
 import Header from "@/components/Header";
-import Navigation from "@/components/Navigation";
-import SearchBar from "@/components/SearchBar";
-import MovieGrid from "@/components/MovieGrid";
-import MovieModal from "@/components/MovieModal";
-import EmptyState from "@/components/EmptyState";
-import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import MediaGrid from "@/components/MediaGrid";
+import { useDiscoverMovies, useDiscoverTV } from "@/hooks/useMovies";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 const Cartoons = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedMovieId, setSelectedMovieId] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = async (query: string) => {
-    setLoading(true);
-    setSearchQuery(query);
-    
-    try {
-      // Search for cartoons using general search with keywords
-      const response = await searchMovies(query + " cartoon animation");
-      setMovies(response.Search);
-      toast.success(`Found ${response.totalResults} cartoons`);
-    } catch (error) {
-      toast.error("Failed to search cartoons. Please try again.");
-      setMovies([]);
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleMovieClick = (movie: Movie) => {
-    setSelectedMovieId(movie.imdbID);
-  };
+  const [tab, setTab] = useState<"movie" | "tv">("movie");
+  const [page, setPage] = useState(1);
+  const moviesQ = useDiscoverMovies({ with_genres: 16, sort_by: "popularity.desc", page });
+  const tvQ = useDiscoverTV({ with_genres: 16, sort_by: "popularity.desc", page });
+  const q = tab === "movie" ? moviesQ : tvQ;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-24">
       <Header />
-      <Navigation />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-12">
-          <SearchBar onSearch={handleSearch} isLoading={loading} />
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        <div className="flex items-end justify-between gap-3 flex-wrap">
+          <h1 className="font-display text-3xl md:text-4xl">Multfilmlər</h1>
+          <Tabs value={tab} onValueChange={(v) => { setTab(v as any); setPage(1); }}>
+            <TabsList>
+              <TabsTrigger value="movie">Filmlər</TabsTrigger>
+              <TabsTrigger value="tv">Seriallar</TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-          </div>
-        ) : movies.length > 0 ? (
-          <MovieGrid movies={movies} onMovieClick={handleMovieClick} />
-        ) : (
-          <EmptyState query={searchQuery} />
-        )}
-      </main>
+        <MediaGrid items={q.data?.results} loading={q.isLoading} fallbackType={tab} />
 
-      {selectedMovieId && (
-        <MovieModal
-          imdbID={selectedMovieId}
-          onClose={() => setSelectedMovieId(null)}
-        />
-      )}
+        <div className="flex justify-center gap-3 pt-6">
+          <Button variant="outline" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>Əvvəlki</Button>
+          <span className="self-center text-sm text-muted-foreground">Səhifə {page}</span>
+          <Button variant="outline" onClick={() => setPage(p => p + 1)}>Sonrakı</Button>
+        </div>
+      </main>
     </div>
   );
 };
