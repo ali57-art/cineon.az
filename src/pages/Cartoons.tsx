@@ -13,9 +13,9 @@ const Cartoons = () => {
   const q = tab === "movie" ? moviesQ : tvQ;
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-8 space-y-6">
         <div className="flex items-end justify-between gap-3 flex-wrap">
           <h1 className="font-display text-3xl md:text-4xl">Multfilmlər</h1>
           <Tabs value={tab} onValueChange={(v) => { setTab(v as any); setPage(1); }}>

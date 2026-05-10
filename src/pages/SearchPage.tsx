@@ -21,9 +21,9 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-12">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-8 space-y-6">
         <div className="relative max-w-2xl mx-auto">
           <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <Input

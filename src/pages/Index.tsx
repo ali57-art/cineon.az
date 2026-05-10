@@ -34,10 +34,10 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-12">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header onShowPlans={() => setShowPlans(true)} />
 
-      <main className="container mx-auto px-4 py-6 space-y-12">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-6 space-y-12">
         <HeroBanner items={heroItems} loading={trendingMovies.isLoading || trendingTV.isLoading} />
 
         <CategoryRow

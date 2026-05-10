@@ -205,7 +205,7 @@ const AIRecommend = () => {
 
       <main className="flex-1 relative z-10">
         {/* HERO + INPUT */}
-        <section className="container mx-auto px-4 pt-16 pb-12 md:pt-24 md:pb-16">
+        <section className="container mx-auto px-3 sm:px-4 md:px-6 pt-16 pb-12 md:pt-24 md:pb-16">
           <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-up">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm">
@@ -377,7 +377,7 @@ const AIRecommend = () => {
 
         {/* LOADING SKELETONS */}
         {loading && (
-          <section className="container mx-auto px-4 pb-16">
+          <section className="container mx-auto px-3 sm:px-4 md:px-6 pb-16">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-8">
                 <p className="font-display text-2xl md:text-3xl text-foreground tracking-wide">
@@ -415,7 +415,7 @@ const AIRecommend = () => {
 
         {/* RESULTS */}
         {!loading && recommendations.length > 0 && (
-          <section ref={resultsRef} className="container mx-auto px-4 pb-20 scroll-mt-20">
+          <section ref={resultsRef} className="container mx-auto px-3 sm:px-4 md:px-6 pb-20 scroll-mt-20">
             <div className="max-w-5xl mx-auto">
               {/* Section header */}
               <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
@@ -524,7 +524,7 @@ const AIRecommend = () => {
 
         {/* EMPTY STATE — when no search yet */}
         {!loading && recommendations.length === 0 && (
-          <section className="container mx-auto px-4 pb-20">
+          <section className="container mx-auto px-3 sm:px-4 md:px-6 pb-20">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-10">
                 <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-2">

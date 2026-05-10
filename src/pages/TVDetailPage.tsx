@@ -49,7 +49,7 @@ const TVDetailPage = () => {
   const seasons = (data.seasons ?? []).filter((s: any) => s.season_number > 0);
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-12">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
 
       <section className="relative">
@@ -57,7 +57,7 @@ const TVDetailPage = () => {
           <img src={tmdb.image.backdrop(data.backdrop_path)} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
         </div>
-        <div className="relative container mx-auto px-4 pt-12 pb-8">
+        <div className="relative container mx-auto px-3 sm:px-4 md:px-6 pt-12 pb-8">
           <div className="grid md:grid-cols-[260px_1fr] gap-8">
             <img
               src={tmdb.image.poster(data.poster_path, "w500")}
@@ -98,7 +98,7 @@ const TVDetailPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8 space-y-6">
+      <section className="container mx-auto px-3 sm:px-4 md:px-6 py-8 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-display font-bold">Epizodlar</h2>
           <Select value={String(selectedSeason)} onValueChange={(v) => setSelectedSeason(Number(v))}>
@@ -119,7 +119,7 @@ const TVDetailPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-3 sm:px-4 md:px-6 py-8">
         <Tabs defaultValue="cast">
           <TabsList>
             <TabsTrigger value="cast">Aktyorlar</TabsTrigger>

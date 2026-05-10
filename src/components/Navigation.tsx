@@ -20,7 +20,7 @@ const Navigation = () => {
 
   return (
     <nav className="border-b bg-card/30 backdrop-blur-md sticky top-[73px] z-40">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-3 sm:px-4 md:px-6">
         <div className="flex items-center gap-1 overflow-x-auto py-2">
           {navItems.map((item) => {
             const Icon = item.icon;
