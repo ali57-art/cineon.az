@@ -61,8 +61,8 @@ const CategoryRow = ({ title, items, loading, fallbackType, seeAllHref }: Catego
                 .map((it) => {
                   const media: MediaItem = normalizeMedia(it, fallbackType);
                   return (
-                    <div key={`${media.media_type}-${media.id}`} className="snap-start flex-shrink-0 w-32 sm:w-40 md:w-48">
-                      <MediaCard media={media} />
+                    <div key={`${media.media_type}-${media.id}`} className="snap-start">
+                      <MediaCard media={media} size="sm" />
                     </div>
                   );
                 })}
