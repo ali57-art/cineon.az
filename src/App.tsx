@@ -27,6 +27,7 @@ import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Person from "./pages/Person";
 import Genre from "./pages/Genre";
+import WatchPage from "./pages/WatchPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BottomNav from "./components/BottomNav";
 import NotFound from "./pages/NotFound";
@@ -57,6 +58,8 @@ const App = () => (
                 <Route path="/person/:id" element={<Person />} />
                 <Route path="/genre/:type/:id" element={<Genre />} />
                 <Route path="/profile/:username" element={<Profile />} />
+                <Route path="/watch/movie/:id" element={<WatchPage />} />
+                <Route path="/watch/tv/:id/:season/:episode" element={<WatchPage />} />
 
                 <Route element={<ProtectedRoute />}>
                   <Route path="/onboarding" element={<Onboarding />} />

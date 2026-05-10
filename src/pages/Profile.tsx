@@ -46,9 +46,9 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
-      <main className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-8 max-w-3xl space-y-6">
         <Card className="p-6">
           <div className="flex items-center gap-4 flex-wrap">
             <Avatar className="w-20 h-20">

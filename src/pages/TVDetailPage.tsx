@@ -49,7 +49,7 @@ const TVDetailPage = () => {
   const seasons = (data.seasons ?? []).filter((s: any) => s.season_number > 0);
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-12">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
 
       <section className="relative">
@@ -57,14 +57,14 @@ const TVDetailPage = () => {
           <img src={tmdb.image.backdrop(data.backdrop_path)} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
         </div>
-        <div className="relative container mx-auto px-4 pt-12 pb-8">
-          <div className="grid md:grid-cols-[260px_1fr] gap-8">
+        <div className="relative container mx-auto px-3 sm:px-4 md:px-6 pt-6 sm:pt-12 pb-8">
+          <div className="grid md:grid-cols-[200px_1fr] lg:grid-cols-[260px_1fr] gap-4 sm:gap-6 md:gap-8">
             <img
               src={tmdb.image.poster(data.poster_path, "w500")}
               alt={data.name}
-              className="rounded-2xl shadow-float w-full max-w-[260px] mx-auto md:mx-0"
+              className="rounded-2xl shadow-float w-40 sm:w-52 md:w-full max-w-[260px] mx-auto md:mx-0"
             />
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div className="flex flex-wrap items-center gap-2">
                 {data.genres?.map((g: any) => (
                   <Link key={g.id} to={`/genre/tv/${g.id}`} className="px-3 py-1 rounded-full bg-muted text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
@@ -72,7 +72,7 @@ const TVDetailPage = () => {
                   </Link>
                 ))}
               </div>
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-gradient-headline">{data.name}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-gradient-headline leading-tight">{data.name}</h1>
               {data.tagline && <p className="text-lg italic text-muted-foreground">{data.tagline}</p>}
               <div className="flex flex-wrap items-center gap-4 text-sm">
                 <span className="flex items-center gap-1 font-semibold">
@@ -84,7 +84,7 @@ const TVDetailPage = () => {
                 <span className="px-2 py-0.5 rounded-full bg-muted text-xs">{data.status}</span>
               </div>
               <p className="text-base text-foreground/90 max-w-2xl">{data.overview}</p>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-2">
                 <Button asChild size="lg" className="gap-2 rounded-full">
                   <Link to={`/watch/tv/${tvId}/1/1`}><Play className="w-4 h-4 fill-current" /> İzlə</Link>
                 </Button>
@@ -98,7 +98,7 @@ const TVDetailPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8 space-y-6">
+      <section className="container mx-auto px-3 sm:px-4 md:px-6 py-8 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-display font-bold">Epizodlar</h2>
           <Select value={String(selectedSeason)} onValueChange={(v) => setSelectedSeason(Number(v))}>
@@ -119,7 +119,7 @@ const TVDetailPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-3 sm:px-4 md:px-6 py-8">
         <Tabs defaultValue="cast">
           <TabsList>
             <TabsTrigger value="cast">Aktyorlar</TabsTrigger>

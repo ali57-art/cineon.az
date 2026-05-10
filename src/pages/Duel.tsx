@@ -125,7 +125,7 @@ const Duel = () => {
       <Header />
       <Navigation />
 
-      <main className="container mx-auto px-4 py-10 space-y-10">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-10 space-y-10">
         <header className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             <Swords className="w-3.5 h-3.5" />

@@ -21,9 +21,9 @@ const ListDetail = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
-      <main className="container mx-auto px-4 py-8 space-y-6">
+      <main className="container mx-auto px-3 sm:px-4 md:px-6 py-8 space-y-6">
         {list.data && (
           <Card className="p-6">
             <div className="flex items-start justify-between gap-3">

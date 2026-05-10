@@ -24,10 +24,10 @@ const CategoryRow = ({ title, items, loading, fallbackType, seeAllHref }: Catego
 
   return (
     <section className="space-y-3 group/row">
-      <div className="flex items-end justify-between">
-        <h2 className="text-2xl md:text-3xl font-display font-bold">{title}</h2>
+      <div className="flex items-end justify-between gap-2">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold">{title}</h2>
         {seeAllHref && (
-          <Link to={seeAllHref} className="text-sm text-primary hover:underline">
+          <Link to={seeAllHref} className="text-xs sm:text-sm text-primary hover:underline whitespace-nowrap">
             Hamısına bax →
           </Link>
         )}
@@ -49,12 +49,12 @@ const CategoryRow = ({ title, items, loading, fallbackType, seeAllHref }: Catego
         </button>
         <div
           ref={ref}
-          className="flex gap-4 overflow-x-auto scroll-smooth pb-2 -mx-4 px-4 snap-x snap-mandatory"
+          className="flex gap-3 sm:gap-4 overflow-x-auto scroll-smooth pb-2 -mx-3 sm:-mx-4 px-3 sm:px-4 snap-x"
           style={{ scrollbarWidth: "none" }}
         >
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
-                <Skeleton key={i} className="w-40 sm:w-48 aspect-[2/3] rounded-2xl flex-shrink-0" />
+                <Skeleton key={i} className="w-32 sm:w-40 md:w-48 aspect-[2/3] rounded-2xl flex-shrink-0" />
               ))
             : items
                 ?.filter((it) => it && (it.poster_path || it.backdrop_path))
@@ -62,7 +62,7 @@ const CategoryRow = ({ title, items, loading, fallbackType, seeAllHref }: Catego
                   const media: MediaItem = normalizeMedia(it, fallbackType);
                   return (
                     <div key={`${media.media_type}-${media.id}`} className="snap-start">
-                      <MediaCard media={media} />
+                      <MediaCard media={media} size="sm" />
                     </div>
                   );
                 })}

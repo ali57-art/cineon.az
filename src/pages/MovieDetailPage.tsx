@@ -52,7 +52,7 @@ const MovieDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24 md:pb-12">
+    <div className="min-h-screen bg-background pb-20 lg:pb-12">
       <Header />
 
       {/* Hero */}
@@ -61,14 +61,14 @@ const MovieDetailPage = () => {
           <img src={tmdb.image.backdrop(data.backdrop_path)} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
         </div>
-        <div className="relative container mx-auto px-4 pt-12 pb-8">
-          <div className="grid md:grid-cols-[260px_1fr] gap-8">
+        <div className="relative container mx-auto px-3 sm:px-4 md:px-6 pt-6 sm:pt-12 pb-8">
+          <div className="grid md:grid-cols-[200px_1fr] lg:grid-cols-[260px_1fr] gap-4 sm:gap-6 md:gap-8">
             <img
               src={tmdb.image.poster(data.poster_path, "w500")}
               alt={data.title}
-              className="rounded-2xl shadow-float w-full max-w-[260px] mx-auto md:mx-0"
+              className="rounded-2xl shadow-float w-40 sm:w-52 md:w-full max-w-[260px] mx-auto md:mx-0"
             />
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div className="flex flex-wrap items-center gap-2">
                 {data.genres?.map((g: any) => (
                   <Link
@@ -80,7 +80,7 @@ const MovieDetailPage = () => {
                   </Link>
                 ))}
               </div>
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-gradient-headline">{data.title}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-gradient-headline leading-tight">{data.title}</h1>
               {data.tagline && <p className="text-lg italic text-muted-foreground">{data.tagline}</p>}
               <div className="flex flex-wrap items-center gap-4 text-sm">
                 <span className="flex items-center gap-1 font-semibold">
@@ -91,7 +91,7 @@ const MovieDetailPage = () => {
                 {data.runtime ? <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {data.runtime} dəq</span> : null}
               </div>
               <p className="text-base text-foreground/90 max-w-2xl">{data.overview}</p>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-2">
                 <Button asChild size="lg" className="gap-2 rounded-full">
                   <Link to={`/watch/movie/${movieId}`}><Play className="w-4 h-4 fill-current" /> İzlə</Link>
                 </Button>
@@ -128,7 +128,7 @@ const MovieDetailPage = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-3 sm:px-4 md:px-6 py-8">
         <Tabs defaultValue="cast" className="w-full">
           <TabsList className="flex-wrap h-auto">
             <TabsTrigger value="cast">Aktyorlar</TabsTrigger>
