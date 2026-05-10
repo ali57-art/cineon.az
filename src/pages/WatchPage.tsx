@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { ArrowLeft, ChevronLeft, ChevronRight, Maximize2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,10 +8,11 @@ import { useMovieDetails, useTVDetails, useTVSeason } from "@/hooks/useMovies";
 import { useWatchHistory } from "@/hooks/useWatchHistory";
 
 const WatchPage = () => {
-  const { type, id, season, episode } = useParams();
+  const { id, season, episode } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const mediaId = Number(id);
-  const isTv = type === "tv";
+  const isTv = location.pathname.startsWith("/watch/tv");
   const seasonNum = Number(season ?? 1);
   const episodeNum = Number(episode ?? 1);
 
