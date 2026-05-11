@@ -23,10 +23,15 @@ const WatchPage = () => {
   const { saveProgress } = useWatchHistory();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [useFallback, setUseFallback] = useState(false);
+  const [subLang, setSubLang] = useState<string>(() => localStorage.getItem("sub_lang") || "az");
+
+  useEffect(() => {
+    localStorage.setItem("sub_lang", subLang);
+  }, [subLang]);
 
   const source = isTv
-    ? videoProvider.getEpisodeSource(mediaId, seasonNum, episodeNum)
-    : videoProvider.getMovieSource(mediaId);
+    ? videoProvider.getEpisodeSource(mediaId, seasonNum, episodeNum, subLang)
+    : videoProvider.getMovieSource(mediaId, subLang);
   const src = useFallback ? source.fallbackUrl : source.url;
 
   const title = isTv ? tv.data?.name : movie.data?.title;
