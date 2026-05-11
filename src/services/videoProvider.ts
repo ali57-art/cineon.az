@@ -10,18 +10,23 @@ export interface VideoSource {
 const PRIMARY = "https://vidsrc.xyz/embed";
 const FALLBACK = "https://vidsrc.to/embed";
 
+function withSub(url: string, lang: string) {
+  // VidSrc altyazı dili parametri: ds_lang (ISO 639-1)
+  return `${url}?ds_lang=${encodeURIComponent(lang)}`;
+}
+
 export const videoProvider = {
-  getMovieSource(tmdbId: number): VideoSource {
+  getMovieSource(tmdbId: number, subLang: string = "az"): VideoSource {
     return {
-      url: `${PRIMARY}/movie/${tmdbId}`,
-      fallbackUrl: `${FALLBACK}/movie/${tmdbId}`,
+      url: withSub(`${PRIMARY}/movie/${tmdbId}`, subLang),
+      fallbackUrl: withSub(`${FALLBACK}/movie/${tmdbId}`, subLang),
       type: "iframe",
     };
   },
-  getEpisodeSource(tmdbId: number, season: number, episode: number): VideoSource {
+  getEpisodeSource(tmdbId: number, season: number, episode: number, subLang: string = "az"): VideoSource {
     return {
-      url: `${PRIMARY}/tv/${tmdbId}/${season}/${episode}`,
-      fallbackUrl: `${FALLBACK}/tv/${tmdbId}/${season}/${episode}`,
+      url: withSub(`${PRIMARY}/tv/${tmdbId}/${season}/${episode}`, subLang),
+      fallbackUrl: withSub(`${FALLBACK}/tv/${tmdbId}/${season}/${episode}`, subLang),
       type: "iframe",
     };
   },
