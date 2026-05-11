@@ -123,7 +123,6 @@ const Header = ({ onShowPlans }: HeaderProps) => {
             className="h-7 w-7 md:h-8 md:w-8 object-contain transition-transform duration-700 group-hover:rotate-180"
           />
           <span className="text-2xl md:text-3xl font-display tracking-wide text-primary leading-none">n</span>
-          <span className="absolute -bottom-0.5 -right-2 w-1.5 h-1.5 rounded-full bg-primary animate-pulse-red" />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">

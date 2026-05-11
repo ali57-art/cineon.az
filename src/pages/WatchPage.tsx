@@ -23,10 +23,15 @@ const WatchPage = () => {
   const { saveProgress } = useWatchHistory();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [useFallback, setUseFallback] = useState(false);
+  const [subLang, setSubLang] = useState<string>(() => localStorage.getItem("sub_lang") || "az");
+
+  useEffect(() => {
+    localStorage.setItem("sub_lang", subLang);
+  }, [subLang]);
 
   const source = isTv
-    ? videoProvider.getEpisodeSource(mediaId, seasonNum, episodeNum)
-    : videoProvider.getMovieSource(mediaId);
+    ? videoProvider.getEpisodeSource(mediaId, seasonNum, episodeNum, subLang)
+    : videoProvider.getMovieSource(mediaId, subLang);
   const src = useFallback ? source.fallbackUrl : source.url;
 
   const title = isTv ? tv.data?.name : movie.data?.title;
@@ -180,7 +185,21 @@ const WatchPage = () => {
             </div>
           </div>
         )}
-        <div className="text-center">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-5xl mx-auto w-full">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Altyazı:</span>
+            <Select value={subLang} onValueChange={setSubLang}>
+              <SelectTrigger className="h-8 w-[130px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="az">Azərbaycan</SelectItem>
+                <SelectItem value="tr">Türkçe</SelectItem>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="ru">Русский</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <Link
             to={isTv ? `/tv/${mediaId}` : `/movie/${mediaId}`}
             className="text-xs text-muted-foreground hover:text-primary"
